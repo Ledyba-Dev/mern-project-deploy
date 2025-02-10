@@ -12,7 +12,11 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (req, res) => {
-    res.json({ message: "API funcionando correctamente" });
+    try {
+        res.json({ message: "API funcionando correctamente" });
+    } catch (error) {
+        console.log(error);
+    }
 });
 
 app.get("/products", async (req, res) => {
