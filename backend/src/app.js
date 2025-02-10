@@ -11,9 +11,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (req, res) => {
-    res.json({
-        message: "API de productos"
-    });
+    res.redirect(process.env.APPLICATION_URL);
 });
 
 app.get("/products", async (req, res) => {
