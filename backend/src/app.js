@@ -1,14 +1,14 @@
 import express from "express";
 import Products from "./models/product.model.js";
 import cors from "cors";
-const corsOptions = {
-    origin: process.env.APPLICATION_URL,
-    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-    credentials: true,
-};
+// const corsOptions = {
+//     origin: process.env.APPLICATION_URL,
+//     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+//     credentials: true,
+// };
 const app = express();
 
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(express.json());
 
 app.get("/", (req, res) => {
