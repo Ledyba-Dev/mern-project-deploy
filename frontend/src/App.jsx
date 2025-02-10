@@ -12,6 +12,7 @@ export default function App() {
         fetch(`${BACKEND_URL}/products`)
             .then((response) => response.json())
             .then((data) => {
+                console.log(data);
                 setProducts(data);
             })
             .catch((error) => console.log(error));
