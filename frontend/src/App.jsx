@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+console.log(BACKEND_URL);
 
 export default function App() {
     const [products, setProducts] = useState([]);
