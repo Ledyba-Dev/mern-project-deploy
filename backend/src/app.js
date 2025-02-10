@@ -8,7 +8,9 @@ app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 app.get("/", (req, res) => {
-    res.send("API de productos");
+    res.json({
+        message: "API de productos"
+    });
 });
 
 app.get("/products", async (req, res) => {
