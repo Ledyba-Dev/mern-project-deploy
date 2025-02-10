@@ -4,6 +4,7 @@ import cors from "cors";
 const corsOptions = {
     origin: process.env.APPLICATION_URL,
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
 };
 const app = express();
 
