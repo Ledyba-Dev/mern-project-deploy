@@ -48,7 +48,6 @@ frontend/.env.*.local
 frontend/.env.local
 
 # Vercel
-.vercel
 
 # Frontend build output
 /frontend/dist/
