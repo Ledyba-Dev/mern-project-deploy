@@ -101,3 +101,4 @@ frontend/.env.local
 Network Trash Folder
 Temporary Items
 .apdisk
+.vercel
