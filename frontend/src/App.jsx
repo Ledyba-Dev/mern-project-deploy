@@ -13,7 +13,8 @@ export default function App() {
             .then((response) => response.json())
             .then((data) => {
                 setProducts(data);
-            });
+            })
+            .catch((error) => console.log(error));
     }, []);
 
     async function handleSubmit(e) {
