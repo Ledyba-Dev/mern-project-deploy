@@ -1,0 +1,12 @@
+### Para crear un usuario
+POST http://localhost:4000/products
+Content-Type: application/json
+
+{
+    "name": "Remera Adidas",
+    "price": 199.99,
+    "description": "Remera Adidas negra talle M"
+}
+
+### GET
+GET http://localhost:4000/products
