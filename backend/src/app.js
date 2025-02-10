@@ -17,7 +17,7 @@ app.use((req, res, next) => {
     res.header("Access-Control-Allow-Credentials", "true");
     next();
 })
-app.use(cors({ credentials: true, origin: APLICATION_URL }));
+app.use(cors({ credentials: true, origin: APPLICATION_URL }));
 app.use(express.json());
 
 app.get("/", (req, res) => {
