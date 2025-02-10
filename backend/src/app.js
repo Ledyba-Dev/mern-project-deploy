@@ -8,6 +8,7 @@ import { APPLICATION_URL } from "./config.js";
 //     credentials: true,
 // };
 const app = express();
+console.log("APLICATION_URL VA ABAJOOOOOOOO")
 console.log(APPLICATION_URL);
 // Habilitamos CORS para todas las rutas
 app.use((req, res, next) => {
