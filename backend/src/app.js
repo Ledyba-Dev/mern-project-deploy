@@ -1,10 +1,13 @@
 import express from "express";
 import Products from "./models/product.model.js";
 import cors from "cors";
-
+const corsOptions = {
+    origin: process.env.APPLICATION_URL,
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+};
 const app = express();
 
-app.use(cors({ origin: "*" }));
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/", (req, res) => {
