@@ -7,6 +7,10 @@ const app = express();
 app.use(cors({ origin: "*" }));
 app.use(express.json());
 
+app.get("/", (req, res) => {
+    res.send("API de productos");
+});
+
 app.get("/products", async (req, res) => {
     const products = await Products.find();
     res.json(products);

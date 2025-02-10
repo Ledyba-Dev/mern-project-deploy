@@ -10,3 +10,6 @@ Content-Type: application/json
 
 ### GET
 GET http://localhost:4000/products
+
+### GET
+GET http://localhost:4000/
