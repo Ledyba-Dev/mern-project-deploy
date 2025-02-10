@@ -1,6 +1,7 @@
 import express from "express";
 import Products from "./models/product.model.js";
 import cors from "cors";
+import { APLICATION_URL } from "./config.js";
 // const corsOptions = {
 //     origin: process.env.APPLICATION_URL,
 //     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
@@ -8,7 +9,15 @@ import cors from "cors";
 // };
 const app = express();
 
-app.use(cors());
+// Habilitamos CORS para todas las rutas
+app.use((req, res, next) => {
+    res.header("Access-Control-Allow-Origin", APLICATION_URL);
+    res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
+    res.header("Access-Control-Allow-Credentials", "true");
+    next();
+})
+app.use(cors({ credentials: true, origin: APLICATION_URL }));
 app.use(express.json());
 
 app.get("/", (req, res) => {
