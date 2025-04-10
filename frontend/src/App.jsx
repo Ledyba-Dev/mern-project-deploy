@@ -7,7 +7,7 @@ export default function App() {
     const [productName, setProductName] = useState("");
     const [productPrice, setProductPrice] = useState(0);
     const [productDescription, setProductDescription] = useState("");
-    
+
     useEffect(() => {
         fetch(`${BACKEND_URL}/products`)
             .then((response) => response.json())
@@ -18,27 +18,85 @@ export default function App() {
             .catch((error) => console.log(error));
     }, []);
 
+    // Agregar estos nuevos estados
+    const [isEditing, setIsEditing] = useState(false);
+    const [editingId, setEditingId] = useState(null);
+    
     async function handleSubmit(e) {
         e.preventDefault();
-        const response = await fetch(`${BACKEND_URL}/products`, {
-            method: "POST",
-            body: JSON.stringify({
-                name: productName,
-                price: Number(productPrice),
-                description: productDescription,
-            }),
-            headers: { "Content-Type": "application/json" },
-        });
+        try {
+            const url = isEditing 
+                ? `${BACKEND_URL}/products/${editingId}`
+                : `${BACKEND_URL}/products`;
 
-        if (response.status === 200) {
-            setProductName("");
-            setProductPrice("");
-            setProductDescription("");
-            const savedProduct = await response.json();
-            if (savedProduct) {
-                setProducts([...products, savedProduct]);
+            console.log("Enviando petición a:", url);
+            console.log("Método:", isEditing ? "PUT" : "POST");
+            console.log("ID del producto:", editingId);
+
+            const response = await fetch(url, {
+                method: isEditing ? "PUT" : "POST",
+                body: JSON.stringify({
+                    name: productName,
+                    price: Number(productPrice),
+                    description: productDescription,
+                }),
+                headers: { "Content-Type": "application/json" },
+            });
+
+            const data = await response.json();
+            console.log("Respuesta del servidor:", data);
+
+            if (response.status === 200) {
+                if (isEditing) {
+                    setProducts(products.map(product => 
+                        product._id === editingId ? data : product
+                    ));
+                    setIsEditing(false);
+                    setEditingId(null);
+                    console.log("PRODUCTO ACTUALIZADO CORRECTAMENTE");
+                } else {
+                    setProducts([...products, data]);
+                    console.log("PRODUCTO CREADO CORRECTAMENTE");
+                }
+                
+                setProductName("");
+                setProductPrice("");
+                setProductDescription("");
+            } else {
+                console.error("Error en la respuesta:", data);
             }
-            console.log("PRODUCTO CREADO CORRECTAMENTE");
+        } catch (error) {
+            console.error("Error al procesar la petición:", error);
+        }
+    }
+
+    // Nueva función para manejar la edición
+    function handleEdit(product) {
+        setIsEditing(true);
+        setEditingId(product._id);
+        setProductName(product.name);
+        setProductPrice(product.price);
+        setProductDescription(product.description);
+    }
+
+    async function handleDelete(productId) {
+        try {
+            const response = await fetch(
+                `${BACKEND_URL}/products/${productId}`,
+                {
+                    method: "DELETE",
+                    headers: { "Content-Type": "application/json" },
+                }
+            );
+
+            if (response.status === 200) {
+                setProducts(
+                    products.filter((product) => product._id !== productId)
+                );
+                console.log("PRODUCTO ELIMINADO CORRECTAMENTE");
+            }
+        } catch (error) {
+            console.error("Error al eliminar el producto:", error);
         }
     }
 
@@ -69,7 +127,23 @@ export default function App() {
                     onChange={(e) => setProductDescription(e.target.value)}
                     required
                 />
-                <button type="submit">Agregar Producto</button>
+                <button type="submit">
+                    {isEditing ? "Actualizar Producto" : "Agregar Producto"}
+                </button>
+                {isEditing && (
+                    <button 
+                        type="button" 
+                        onClick={() => {
+                            setIsEditing(false);
+                            setEditingId(null);
+                            setProductName("");
+                            setProductPrice("");
+                            setProductDescription("");
+                        }}
+                    >
+                        Cancelar
+                    </button>
+                )}
             </form>
             <div className="containerProducts">
                 {products.map((product) => {
@@ -78,6 +152,12 @@ export default function App() {
                             <h2>{product.name}</h2>
                             <p>{product.price}</p>
                             <p>{product.description}</p>
+                            <div className="containerButtons">
+                                <button onClick={() => handleDelete(product._id)}>
+                                    Eliminar
+                                </button>
+                                <button onClick={() => handleEdit(product)}>Editar</button>
+                            </div>
                         </div>
                     );
                 })}

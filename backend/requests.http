@@ -1,0 +1,38 @@
+### Get all products
+GET http://localhost:4000/products
+
+### Get single product
+# GET http://localhost:4000/products/{{productId}}
+
+### Create new product
+POST http://localhost:4000/products
+Content-Type: application/json
+
+{
+    "name": "Test Product",
+    "price": 99.99,
+    "description": "This is a test product"
+}
+
+### Update product
+
+# PUT PUT URL_ADDRESS:4000/products/67f6dc52094089535331267d
+
+# Content-Type: application/json
+
+# {
+#     "name": "Updated Product",
+#     "price": 149.99,
+#     "description": "This is an updated product"
+# }
+
+Content-Type: application/json
+
+{
+    "name": "Updated Product",
+    "price": 149.99,
+    "description": "This is an updated product"
+}
+
+### Delete product
+DELETE http://localhost:4000/products/67f6dc52094089535331267d
